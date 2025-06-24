@@ -52,7 +52,9 @@ export default function SignUpPage() {
         toast.error(res.message, toastOptions);
       } else {
         toast.success(res.message, toastOptions);
-        setShowVerification(true);
+        // TODO: Bypass email verification - redirect directly to dashboard
+        router.push("/dashboard");
+        // setShowVerification(true); // TODO: Comment out verification dialog
       }
     } catch (error) {
       toast.error("Sign-up failed: " + error.message, toastOptions);
@@ -61,6 +63,8 @@ export default function SignUpPage() {
   };
 
   const handleVerifyCode = async () => {
+    // TODO: Bypass email verification - this function is no longer needed 
+    /*
     if (!verificationCode) return;
 
     setLoading(true);
@@ -87,6 +91,7 @@ export default function SignUpPage() {
       setVerificationCode("");
     }
     setLoading(false);
+    */
   };
 
   const handleGoogleSignIn = async () => {
