@@ -58,9 +58,11 @@ const Header = ({ workspaceId }) => {
   return (
     <header className="flex items-center justify-between px-8 py-3 bg-black bg-opacity-80 backdrop-blur-lg border-b  shadow-xl z-20">
       {/* Title with Neon Glow Effect */}
-      <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 drop-shadow-lg animate-pulse">
-        CodeMate
+      <Link href="/" >
+      <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 drop-shadow-lg">
+        HackSpace
       </h1>
+      </Link>
 
       <InviteNotification />
 
