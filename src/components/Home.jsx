@@ -27,7 +27,7 @@ export default function HomePage() {
 
 
   const [displayText, setDisplayText] = useState("");
-  const fullText = "HackSpace: Your AI-Powered Coding Playground";
+  const fullText = "HackSpace";
 
   useEffect(() => {
     let index = 0;
