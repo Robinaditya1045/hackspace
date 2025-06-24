@@ -13,32 +13,58 @@ export const signUpUser = async (email, password, displayName) => {
       return { success: false, message: "User already exists. Please log in." };
     }
 
-    const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+    // TODO: Bypass email verification - commenting out verification code generation and email sending
+    // const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-    await setDoc(doc(db, "emailVerifications", email), {
-      verifyCode,
+    // await setDoc(doc(db, "emailVerifications", email), {
+    //   verifyCode,
+    //   createdAt: serverTimestamp(),
+    // });
+
+    // const emailResponse = await sendVerificationEmail(
+    //   email,
+    //   verifyCode
+    // );
+
+    // if(!emailResponse.success){
+    //   console.error('Error sending verification email:', emailResponse.message);
+    //   return Response.json(
+    //     {
+    //       success: false,
+    //       message: emailResponse.message,
+    //     },
+    //     { status: 500 }
+    //   );
+    // }
+
+    // TODO: Bypass email verification - directly create user account
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    await updateProfile(user, { displayName });
+
+    await setDoc(doc(db, "users", email), {
+      email: user.email,
+      displayName,
+      photoURL: user.photoURL || "/robotic.png",
+      authProvider: "email",
       createdAt: serverTimestamp(),
+      lastLogin: serverTimestamp(),
+      twoFactorEnabled: false,
+      workspaces: {},
+      settings: {
+        theme: "dark",
+        fontSize: 14,
+        showLineNumbers: true,
+        aiSuggestions: true,
+      },
+      snippets: [],
     });
-
-      const emailResponse = await sendVerificationEmail(
-        email,
-        verifyCode
-      );
-
-     if(!emailResponse.success){
-      console.error('Error sending verification email:', emailResponse.message);
-      return Response.json(
-        {
-          success: false,
-          message: emailResponse.message,
-        },
-        { status: 500 }
-      );
-     }
 
     return { 
       success: true, 
-      message: "Verification email sent. Please check your inbox." 
+      message: "Account created successfully!", // TODO: Updated message since no email verification needed
+      user 
     };
   } catch (error) {
     console.error("Sign-up error:", error);
@@ -47,6 +73,8 @@ export const signUpUser = async (email, password, displayName) => {
 };
 
 export const verifyEmailCode = async (email, code, password, displayName) => {
+  // TODO: Bypass email verification - this function is no longer needed
+  /*
   try {
     const verificationRef = doc(db, "emailVerifications", email);
     const verificationSnap = await getDoc(verificationRef);
@@ -100,6 +128,9 @@ export const verifyEmailCode = async (email, code, password, displayName) => {
     console.error("Verification error:", error);
     return { success: false, message: error.message };
   }
+  */
+  // TODO: Return success directly since verification is bypassed
+  return { success: true, message: "Account created successfully!" };
 };
 
 export const signInWithGoogle = async () => {
